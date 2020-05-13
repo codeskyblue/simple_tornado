@@ -1,0 +1,17 @@
+language: python
+python:
+- '3.6'
+- '3.7'
+- '3.8'
+- pypy
+script: echo skip test
+deploy:
+  skip_existing: true
+  provider: pypi
+  user: codeskyblue
+  password:
+    secure: C3uW/i8Er7mWVAseoN3jbmSh6USBZDTQCNyGagHToEltfnFUmgg2bk3Ow1vgPQORxWGTXOuGfBVoy1YfWdug84nG2OSRL8l4tnWI6SDRkgjvMVDfL2ZrnJTOtgfe/TKAgag4aaRoCc4g5LVP7n/iW0+vqtNSI93VCDwiG8Dh+z0vqhSiy3wml8P0Nuo9hq3PUXMnrudM1vJJaEuhi/xvqJfyWpRRsD2txq5onJprR1pNdy3B+3hZXjgUrR58Ps2O0K2/Wrlc+/tA50HLBlyto9CtEeW7uzb/Ytu3jAIWqsEL29lnHRWTnTf+vV3E49BwaELEeE8ezCQWphnrMafc+eJhJLH6L7ZaT7az95Iwr0UXX/MoL9VDXg5c/rFSEeZudcWhQWoPT3AxXjDIduCIBtnh8C1ps7uEKIqHRG6zpVitcXj4nCw7Y005cuxNH82w8Me1zPcYeJ265QAegAc64708qDpIPsdQHj6OVvW8vO9ifrKzesIhnYvHwysbx9UolPHE0rWZ1G1awhTUuxKRKYcbCQXz0GSOWaauV8KejF3j6ITSNh/ajiZ8wUAqVl3vvkdLo7n8pgnBKZztmvD0mYCyxlhbTG173KNbHM1Ztkab/PCEbu0wlT8Dk0NNzoSI/Wfkq6jO7x/oSOPaofn6ViYmbm7CBV6F3G8iYZ+U2Tc=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: codeskyblue/simple_tornado
