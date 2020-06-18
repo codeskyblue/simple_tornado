@@ -260,3 +260,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+README.rst
+AUTHORS
+ChangeLog

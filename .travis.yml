@@ -4,7 +4,9 @@ python:
 - '3.7'
 - '3.8'
 - pypy
-script: echo skip test
+script:
+- pip3 install m2r
+- echo skip test
 deploy:
   skip_existing: true
   provider: pypi
