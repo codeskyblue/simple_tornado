@@ -32,10 +32,12 @@ def parse_args():
     return parser.parse_args()
     
 
-def listen_and_serve(addr: str,
+def listen_and_serve(addr: Union[str, int],
                     handler: Union[tornado.web.Application, list],
                     debug: Optional[bool]=None,
-                    root_dir: str = "."):
+                    root_dir: str = ".",
+                    xheaders: bool = False,
+                    ioloop_start: bool = True):
     """
     Listen and serve
 
@@ -45,14 +47,17 @@ def listen_and_serve(addr: str,
             (r"/simple", SimpleHandler),
         ])
     """
-    host, port = addr.split(":", 1)
-    port = int(port)
+    if isinstance(addr, int):
+        port = addr
+    else:
+        host, port = addr.split(":", 1)
+        port = int(port)
 
     if debug is None:
         debug = (os.getenv("DEBUG") == "true")
 
-    if _is_port_listening(port):
-        sys.exit("[simple_tornado] Warning, localhost:{} is already listening".format(port))
+    #if _is_port_listening(port):
+    #    sys.exit("[simple_tornado] Warning, localhost:{} is already listening".format(port))
 
     settings = {
         'static_path': os.path.join(root_dir, 'static'),
@@ -63,8 +68,11 @@ def listen_and_serve(addr: str,
     if isinstance(handler, list):
         handler = tornado.web.Application(handler, debug=debug)
 
-    http_server = tornado.httpserver.HTTPServer(handler, xheaders=True)
-    http_server.listen(port)
+    if xheaders:
+        http_server = tornado.httpserver.HTTPServer(handler, xheaders=True)
+        http_server.listen(port)
+    else:
+        handler.listen(port)
 
     if debug:
         enable_pretty_logging()
@@ -73,9 +81,10 @@ def listen_and_serve(addr: str,
         import asyncio
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-    try:
-        print("[simple_tornado] Listening on {}".format(addr))
-        IOLoop.instance().start()
-    except KeyboardInterrupt:
-        IOLoop.instance().stop()
+    if ioloop_start:
+        try:
+            print("[simple_tornado] Listening on {}".format(addr))
+            IOLoop.instance().start()
+        except KeyboardInterrupt:
+            IOLoop.instance().stop()
 
