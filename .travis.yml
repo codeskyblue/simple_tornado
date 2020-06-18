@@ -5,7 +5,7 @@ python:
 - '3.8'
 - pypy
 script:
-- pip3 install m2r
+- pip install m2r
 - echo skip test
 deploy:
   skip_existing: true
