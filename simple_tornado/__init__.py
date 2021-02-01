@@ -44,9 +44,8 @@ class CorsMixin:
 
 
 def patch_for_windows():
-    if sys.platform == 'win32':
-        # add perodic call to let ctrl-c work
-        if sys.version_info[:2] == (3, 8):
+    if sys.platform == 'win32' 
+        if sys.version_info[:2] >= (3, 8):
             import asyncio
             asyncio.set_event_loop_policy(
                 asyncio.WindowsSelectorEventLoopPolicy())
@@ -55,6 +54,7 @@ def patch_for_windows():
             print('Signal Interrupt catched, exiting...')
             IOLoop.instance().stop()
 
+        # add perodic call to let ctrl-c work
         # must put after set_event_loop_policy
         signal.signal(signal.SIGINT, _signal_handler)
         PeriodicCallback(lambda: None, 100).start()
