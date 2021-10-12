@@ -44,7 +44,7 @@ class CorsMixin:
 
 
 def patch_for_windows():
-    if sys.platform == 'win32' 
+    if sys.platform == 'win32':
         if sys.version_info[:2] >= (3, 8):
             import asyncio
             asyncio.set_event_loop_policy(
